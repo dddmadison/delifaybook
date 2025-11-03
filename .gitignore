@@ -1,0 +1,17 @@
+client/node_modules/
+client/build/
+client/.env
+client/.env.*
+!client/.env.example
+
+server/target/
+
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+*.h2.db
+*.mv.db
+*.trace.db
