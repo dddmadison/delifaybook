@@ -63,7 +63,7 @@ async def extract_book_cover(file: UploadFile = File(...)):
         points = results[0].masks.xy[0]
         contour = np.array(points, dtype=np.int32)
         
-        # 🔥 튜닝 2: 수십 개의 다각형 점들을 4개의 꼭짓점(사각형)으로 예쁘게 깎아냅니다.
+        # 튜닝 2: 수십 개의 다각형 점들을 4개의 꼭짓점(사각형)으로 예쁘게 깎아냅니다.
         peri = cv2.arcLength(contour, True)
         approx = cv2.approxPolyDP(contour, 0.02 * peri, True)
 
@@ -98,7 +98,7 @@ async def extract_book_cover(file: UploadFile = File(...)):
         warped_img = cv2.warpPerspective(img_bgr, M, (maxWidth, maxHeight))
 
         # ==========================================
-        # 🎨 [3단계] 안전한 뽀샵 처리 (컬러 보존 다크 모드)
+        # [3단계] 안전한 뽀샵 처리 (컬러 보존 다크 모드)
         # ==========================================
         # LAB 변환 및 CLAHE (명암비 보정 - 텍스트 가독성 상승)
         lab = cv2.cvtColor(warped_img, cv2.COLOR_BGR2LAB)
@@ -108,7 +108,7 @@ async def extract_book_cover(file: UploadFile = File(...)):
         processed_lab = cv2.merge((cl, a, b))
         enhanced_img = cv2.cvtColor(processed_lab, cv2.COLOR_LAB2BGR)
 
-        # 🔥 튜닝 3: 샤프닝(Unsharp Masking) 수치를 부드럽게 조절해서 노이즈를 줄입니다.
+        # 튜닝 3: 샤프닝(Unsharp Masking) 수치를 부드럽게 조절해서 노이즈를 줄입니다.
         gaussian_blur = cv2.GaussianBlur(enhanced_img, (0, 0), 2.0)
         final_img = cv2.addWeighted(enhanced_img, 1.2, gaussian_blur, -0.2, 0) # 수치 완화
 
