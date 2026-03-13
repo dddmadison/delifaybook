@@ -31,3 +31,19 @@ ai_server/.venv/
 venv/
 __pycache__/
 *.pyc
+
+
+# docs / notes
+*.docx
+*.tmp
+~$*
+api.txt
+디렉터리 트리.txt
+실패기록.txt
+작업리스트.txt
+
+# refactoring notes
+배포전 최종 리팩터링*
+개발 작업.docx
+도서관리 프로그램 개발*
+작업순서.docx
