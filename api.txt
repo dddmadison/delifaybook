@@ -1,0 +1,9 @@
+# --- National Library of Korea Open API ---
+nl.api.key=a7d791367337df5c77ef11089e00e2f40168fbf68fb9310ca4644d952bcde116
+nl.api.holdings.base=https://www.nl.go.kr/NL/search/openApi/search.do
+nl.api.isbn.base=https://www.nl.go.kr/seoji/SearchApi.do
+
+# === NAVER OPEN API ===
+naver.client-id=YlnY0XybrqMbnI1l4NmL
+naver.client-secret=qIUNN5qX2g
+naver.base-url=https://openapi.naver.com

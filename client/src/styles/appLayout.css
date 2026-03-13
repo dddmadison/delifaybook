@@ -1,0 +1,73 @@
+.appLayout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.appMain {
+  flex: 1;
+  padding: 16px;
+}
+
+/* Skeleton */
+.skeletonWrap {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.skeletonTitle {
+  height: 22px;
+  width: 180px;
+  border-radius: 10px;
+  margin: 6px 0 16px;
+  background: #e8e8e8;
+  animation: skPulse 1.1s ease-in-out infinite;
+}
+
+.skeletonRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.skeletonCard {
+  height: 140px;
+  border-radius: 14px;
+  background: #e8e8e8;
+  animation: skPulse 1.1s ease-in-out infinite;
+}
+
+.skeletonList {
+  margin-top: 10px;
+}
+
+.skeletonLine {
+  height: 14px;
+  border-radius: 10px;
+  background: #e8e8e8;
+  margin: 10px 0;
+  animation: skPulse 1.1s ease-in-out infinite;
+}
+
+.skeletonLine.short {
+  width: 60%;
+}
+
+@keyframes skPulse {
+  0% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.55;
+  }
+}
+
+@media (max-width: 640px) {
+  .skeletonRow {
+    grid-template-columns: 1fr;
+  }
+}

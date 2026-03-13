@@ -1,0 +1,29 @@
+server:
+  port: 8080
+  # 👇 [추가] 용량이 큰 파일이 들어와도 톰캣이 강제로 연결을 끊지 않도록 방지
+  tomcat:
+    max-swallow-size: -1
+
+spring:
+  application:
+    name: server
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  # 👇 [추가] 파일 업로드 용량 제한을 50MB로 넉넉하게 늘림
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+logging:
+  level:
+    root: INFO
+
+# NLK 기본값(키는 환경변수로 주입)
+nlk:
+  base-url: https://www.nl.go.kr/seoji/SearchApi.do
+  result-style: json
+  page-size: 1

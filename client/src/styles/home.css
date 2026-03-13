@@ -1,0 +1,266 @@
+/* client/src/styles/home.css */
+
+/* 1. 전체 레이아웃 */
+.homeContainer {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 20px 80px; 
+}
+
+/* 2. 헤더 영역 */
+/* 2. 헤더 영역 (수정됨) */
+.homeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* 세로 중앙 정렬 */
+  margin-bottom: 24px;
+  gap: 12px; /* 글자와 버튼 사이의 최소 간격 */
+}
+
+.homeGreeting {
+  /* [레이아웃 수정] 공간 유동성 부여 */
+  flex: 1;       /* 남은 공간을 꽉 채웁니다 (약 75% 효과) */
+  min-width: 0;  /* 공간이 부족하면 줄바꿈이 일어나게 허용 */
+  
+  /* [기존 스타일] */
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+  line-height: 1.4;
+  letter-spacing: -0.5px;
+  
+  /* [텍스트 줄바꿈] 한국어 단어 단위로 깔끔하게 떨어지도록 설정 */
+  word-break: keep-all;      
+  overflow-wrap: break-word; 
+}
+
+/* [버튼 스타일] 커피색 배경 유지 및 형태 고정 */
+.btn-sm {
+  /* [레이아웃 고정 - 여기가 핵심입니다] */
+  flex-shrink: 0;      /* 화면이 좁아져도 절대 찌그러지지 않음 */
+  white-space: nowrap; /* 텍스트가 두 줄로 되지 않음 */
+  
+  /* [기존 커피색 디자인 유지] */
+  background-color: var(--primary-color); /* 기존의 커피색 배경 */
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px; /* 둥근 테두리 */
+  font-size: 14px;
+  font-weight: 600;
+  
+  /* [추가] 링크 태그일 때 레이아웃 깨짐 방지 */
+  text-decoration: none; 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 3. 메인 배너 (슬로건 영역) */
+.homeBanner {
+  background-color: var(--secondary-color);
+  border-radius: 16px;
+  padding: 28px 24px;
+  margin-bottom: 20px; /* 대시보드와의 간격 */
+  text-align: left; /* 텍스트 왼쪽 정렬로 변경하여 차분한 느낌 */
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.bannerTitle {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.4;
+  margin: 0 0 8px 0;
+  color: var(--text-main);
+}
+
+.bannerDesc {
+  font-size: 14px;
+  color: var(--text-sub);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 4. 독서 현황 대시보드 (통계 카드) */
+.statsSection {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.statCard {
+  flex: 1;
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 16px 12px;
+  text-align: center;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.statCard:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.statLabel {
+  font-size: 13px;
+  color: var(--text-sub);
+  font-weight: 600;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-main);
+  font-family: "Pretendard", sans-serif;
+}
+
+/* 5. 섹션 공통 & 리스트 */
+.homeSection {
+  margin-bottom: 40px;
+}
+.sectionHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+.sectionHead h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+.moreLink {
+  font-size: 13px;
+  color: var(--text-sub);
+  font-weight: 500;
+}
+.moreLink:hover {
+  color: var(--primary-color);
+}
+
+/* 빈 상태 박스 */
+.emptyBox {
+  background-color: rgba(255,255,255,0.6);
+  border: 1px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-sub);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.link-primary {
+  color: var(--primary-color);
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.link-text {
+  color: var(--text-main);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* 가로 스크롤 리스트 */
+.readingScroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 4px 4px 20px 4px;
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+}
+.readingScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.readingCard {
+  min-width: 128px;
+  width: 128px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.readingCard:hover {
+  transform: translateY(-6px);
+}
+
+.readingCoverWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.5;
+  border-radius: 6px 10px 10px 6px;
+  overflow: hidden;
+  box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
+  background-color: #eee;
+}
+.readingCover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.readingOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to top, rgba(62, 39, 35, 0.8), transparent);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 10px 8px;
+}
+.readingPercent {
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.readingInfo {
+  padding: 0 2px;
+}
+.readingTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 8px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.miniProgress {
+  width: 100%;
+  height: 4px;
+  background-color: #E0E0E0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.miniFill {
+  height: 100%;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+}
+
+@media (max-width: 480px) {
+  .homeContainer { padding: 24px 16px 60px; }
+  .readingCard { min-width: 110px; width: 110px; }
+}

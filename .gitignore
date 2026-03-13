@@ -1,5 +1,6 @@
 client/node_modules/
 client/build/
+client/dist/
 client/.env
 client/.env.*
 !client/.env.example
@@ -15,3 +16,18 @@ Thumbs.db
 *.h2.db
 *.mv.db
 *.trace.db
+
+*.log
+
+server/.env
+server/.env.*
+server/src/main/resources/application-local.yml
+server/src/main/resources/application-dev.yml
+server/src/main/resources/application-prod.yml
+
+
+ai_server/.venv/
+.venv/
+venv/
+__pycache__/
+*.pyc

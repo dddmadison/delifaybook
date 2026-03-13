@@ -1,0 +1,152 @@
+/* client/src/styles/nav.css */
+
+.topnav {
+  /* --- [🎨 테마 선택 구역] --- */
+  /* 원하는 옵션의 주석을 풀면 해당 색상이 적용됩니다. */
+
+  /* ☕ 옵션 1: 딥 에스프레소 (Dark & Heavy) - 어두운 배경, 흰 글씨 */
+  
+  --surface-color: #3E2723;
+  --primary-color: #FFFFFF;
+  --secondary-color: rgba(255, 255, 255, 0.1);
+  --text-sub: rgba(255, 255, 255, 0.7);
+  --border-color: #4E342E;
+ 
+
+  /* 🌿 옵션 2: 포레스트 그린 (Botanic Point) - 흰 배경, 녹색 포인트 */
+  /*
+  --surface-color: #FFFFFF;
+  --primary-color: #2E7D32;
+  --secondary-color: #E8F5E9;
+  --text-sub: #8D8D8D; 
+  --border-color: #E0E0E0;
+  */
+
+  /* ⚓ 옵션 3: 클래식 네이비 (Intellectual Blue) - 흰 배경, 남색 포인트 */
+  /*
+  --surface-color: #FFFFFF;
+  --primary-color: #1A237E;
+  --secondary-color: #E8EAF6;
+  --text-sub: #8D8D8D; 
+  --border-color: #E0E0E0;
+  */
+  
+  /* (아무것도 주석을 풀지 않으면 index.css의 기본 갈색 테마가 적용됩니다) */
+  /* -------------------------- */
+
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 80px; 
+  z-index: 1000;
+  
+  /* 위에서 설정한 변수(--surface-color)가 배경색이 됩니다 */
+  background-color: var(--surface-color);
+  
+  border-bottom: 1px solid var(--border-color);
+  
+  /* 그림자 색상은 배경이 어두울 때를 대비해 투명도 조절 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); 
+  transition: all 0.3s ease;
+}
+
+.topnav__inner {
+  max-width: 1024px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topnav__brand {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  
+  /* 위에서 설정한 변수(--primary-color) 사용 */
+  color: var(--primary-color);
+  
+  text-decoration: none;
+  font-family: "Pretendard", sans-serif;
+  cursor: pointer;
+}
+
+.topnav__links {
+  display: flex;
+  gap: 8px;
+}
+
+/* 네비게이션 아이템 기본 스타일 */
+.nav-item {
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 8px; /* index.css의 border-radius와 통일하거나 8px 고정 */
+  
+  font-size: 16px;
+  font-weight: 600;
+  
+  /* 위에서 설정한 변수(--text-sub) 사용 */
+  color: var(--text-sub);
+  background-color: transparent;
+  
+  transition: all 0.2s ease-in-out;
+}
+
+/* 마우스 올렸을 때 (Hover) */
+.nav-item:hover {
+  background-color: var(--secondary-color); 
+  color: var(--primary-color);
+}
+
+/* 활성화된 메뉴 (Active) */
+.nav-item.active {
+/* 배경은 흰색 */
+  background-color: var(--primary-color);
+  
+  /* 글자는 '진한 고동색'으로 강제 지정하여 잘 보이게 함 */
+  color: #3E2723 !important;  
+  /* active 상태의 글씨는 배경에 따라 흰색(대부분) 혹은 반대색이어야 함 */
+  /* 옵션 1(에스프레소)의 경우 primary가 흰색이므로 글씨는 어두워야 함 */
+  /* 이를 해결하기 위해 calc나 filter를 쓸 수도 있지만, 간단히 '흰색'을 기본으로 하되 
+     옵션 1일 때는 글씨색을 직접 지정하는 게 좋습니다. 
+     여기서는 CSS 변수 상속의 복잡함을 피하기 위해 
+     옵션 1 사용 시에는 아래 color: #FFFFFF를 color: #3E2723; 으로 바꿔주시면 완벽합니다.
+     하지만 기본적으로 흰색이 무난합니다. */
+  color: #FFFFFF; 
+  
+  font-weight: 700;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+/* * [예외 처리] 옵션 1(에스프레소) 사용 시 active 글씨 색상 수정 
+ * 옵션 1을 켰을 때만 아래 주석을 풀어주세요.
+ */
+/*
+.nav-item.active {
+  color: #3E2723 !important; 
+}
+*/
+
+
+/* 모바일 대응 */
+@media (max-width: 600px) {
+  .topnav {
+    height: 64px;
+  }
+  
+  .topnav__inner {
+    padding: 0 16px;
+  }
+
+  .topnav__brand {
+    font-size: 20px;
+  }
+  
+  .nav-item {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}

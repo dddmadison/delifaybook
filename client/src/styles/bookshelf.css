@@ -1,0 +1,254 @@
+/* client/src/styles/bookshelf.css */
+
+.bsPage {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+/* --- 1. 헤더 영역 --- */
+.bsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.bsTitle {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* 보기 모드 토글 */
+.bsViewToggle {
+  display: flex;
+  background-color: var(--secondary-color);
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.bsToggleBtn {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: var(--text-sub);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.bsToggleBtn:hover { color: var(--text-main); }
+.bsToggleBtn.active {
+  background-color: #FFFFFF;
+  color: var(--primary-color);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* --- 2. 툴바 (필터 & 정렬 & 검색) --- */
+.bsToolbar {
+  display: flex;
+  flex-direction: column; /* 모바일: 세로 배치 */
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+/* 필터 그룹 */
+.bsFilterGroup {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.bsFilterChip {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-sub);
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.bsFilterChip:hover { background-color: var(--secondary-color); color: var(--text-main); }
+.bsFilterChip.active {
+  background-color: var(--primary-color);
+  color: #FFFFFF;
+  border-color: var(--primary-color);
+}
+
+/* ★ [핵심 수정] 검색창 + 정렬 그룹 */
+.bsSearchSortGroup {
+  display: flex;
+  flex-direction: column; /* 모바일: 검색창 아래에 정렬 버튼 */
+  gap: 8px;
+}
+
+/* 검색창 */
+.bsSearchWrap {
+  flex: 1;
+  min-width: 200px;
+}
+
+.bsSearchInput {
+  width: 100%;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  background-color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s;
+}
+.bsSearchInput:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.1);
+}
+
+/* 정렬 선택 박스 */
+.bsSortSelect {
+  padding: 8px 32px 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: #FFFFFF;
+  color: var(--text-main);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  align-self: flex-end; /* 모바일: 오른쪽 정렬 */
+  
+  /* 화살표 아이콘 */
+  -webkit-appearance: none; -moz-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%233E2723%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 10px auto;
+}
+.bsSortSelect:focus { border-color: var(--primary-color); }
+
+/* 웹(Desktop) 레이아웃 */
+@media (min-width: 600px) {
+  .bsToolbar {
+    flex-direction: row; /* 좌우 배치 */
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; /* 화면 좁을 때 줄바꿈 허용 */
+  }
+  
+  .bsSearchSortGroup {
+    flex-direction: row; /* ★ 웹: 나란히 배치 */
+    align-items: center;
+    flex: 1; /* 남은 공간 차지 */
+    min-width: 300px;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+  }
+
+  .bsSortSelect {
+    align-self: auto; /* 모바일 정렬 해제 */
+    flex-shrink: 0;
+  }
+}
+
+/* --- 3. 콘텐츠 영역 (Grid & List) --- */
+.bsContent { min-height: 300px; }
+.bsLoading { text-align: center; padding: 60px 0; color: var(--text-sub); font-size: 15px; }
+
+/* 격자 뷰 */
+.bsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 16px;
+  row-gap: 32px;
+  width: 100%;
+}
+
+.bsGrid .bookCard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.bsGrid .bookCard:hover { transform: translateY(-4px); }
+
+.bsGrid .bookCoverWrap {
+  width: 100%;
+  aspect-ratio: 1 / 1.5;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  margin-bottom: 12px;
+  position: relative;
+}
+.bsGrid .bookCover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.bsGrid .bookBadge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-top-left-radius: 8px;
+  color: #fff;
+  background-color: rgba(0,0,0,0.6);
+}
+.bsGrid .badge-reading { background-color: var(--primary-color); }
+.bsGrid .badge-done { background-color: #2E7D32; }
+.bsGrid .badge-unread { background-color: #F57C00; }
+
+.bsGrid .bookTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 4px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bsGrid .bookAuthor {
+  font-size: 13px;
+  color: var(--text-sub);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 리스트 뷰 */
+.bsList { display: flex; flex-direction: column; gap: 12px; }
+.bsListRow {
+  display: flex; align-items: center; gap: 16px;
+  background-color: #FFFFFF; border: 1px solid var(--border-color);
+  border-radius: 12px; padding: 12px; width: 100%; text-align: left;
+  transition: all 0.2s ease; cursor: pointer;
+}
+.bsListRow:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-color: var(--primary-color); }
+.bsListCover { width: 50px; height: 75px; object-fit: cover; border-radius: 4px; background-color: #eee; border: 1px solid rgba(0,0,0,0.05); flex-shrink: 0; }
+.bsListInfo { flex: 1; display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+.bsListTitle { font-size: 16px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bookAuthor { font-size: 13px; color: var(--text-sub); }
+.bsListMeta { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+.bsListPct { font-size: 14px; font-weight: 700; color: var(--primary-color); min-width: 40px; }
+.bsListProgress { flex: 1; max-width: 200px; height: 6px; background-color: var(--border-color); border-radius: 3px; overflow: hidden; }
+.bsListFill { height: 100%; background-color: var(--primary-color); border-radius: 3px; }
+.bsListPages { font-size: 12px; color: var(--text-sub); margin-left: auto; }
+
+/* 모바일 대응 */
+@media (max-width: 600px) {
+  .bsFilterGroup { justify-content: flex-start; width: 100%; overflow-x: auto; padding-bottom: 4px; }
+  .bsListMeta { flex-wrap: wrap; gap: 8px; }
+  .bsListProgress { display: none; }
+  .bsListPages { margin-left: 0; }
+}

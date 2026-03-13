@@ -1,0 +1,211 @@
+/* client/src/styles/auth.css */
+
+:root {
+  /* 🎨 1. 코지 라이브러리 (Warm & Cozy) 팔레트 정의 */
+  --primary-color: #8D6E63;       /* 버튼, 강조 텍스트 (갈색) */
+  --primary-hover: #5D4037;       /* 버튼 호버 시 더 진한 갈색 */
+  --secondary-color: #EFEBE9;     /* 보조 배경, 태그 배경 */
+  --background-color: #FDFBF7;    /* 전체 배경색 (아주 연한 미색) */
+  --surface-color: #FFFFFF;       /* 카드, 모달 등 흰색 영역 */
+  --text-main: #3E2723;           /* 본문 텍스트 (진한 고동색) */
+  --text-sub: #8D8D8D;            /* 부가 설명 텍스트 */
+  --border-color: #E0E0E0;        /* 테두리 색상 */
+  --point-color: #FF7043;         /* 에러 메시지, 포인트 (주황) */
+
+  /* Auth 페이지 전용 매핑 */
+  --auth-focus-ring: rgba(141, 110, 99, 0.25); /* 갈색 빛의 포커스 링 */
+  --brand-gradient: linear-gradient(135deg, #8D6E63 0%, #6D4C41 100%); /* 로고용 갈색 그라데이션 */
+}
+
+.authPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: var(--background-color);
+}
+
+.authCard {
+  width: 100%;
+  max-width: 400px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 40px 32px;
+  /* 그림자도 갈색 톤을 섞어 부드럽게 */
+  box-shadow: 0 12px 40px rgba(62, 39, 35, 0.06);
+  animation: slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 헤더 영역 */
+.authBrand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.authLogo {
+  width: 56px;
+  height: 56px;
+  /* 갈색 그라데이션 로고 */
+  background: var(--brand-gradient);
+  color: #fff;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 28px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(141, 110, 99, 0.3);
+}
+
+.authTitle {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 6px 0;
+  letter-spacing: -0.5px;
+}
+
+.authSub {
+  font-size: 15px;
+  color: var(--text-sub);
+  margin: 0;
+}
+
+/* 폼 영역 */
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.authField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.authField label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-left: 4px;
+}
+
+.authInput {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 16px;
+  /* 입력창 배경을 아주 연한 미색으로 설정하여 부드러운 느낌 */
+  background: var(--background-color); 
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  transition: all 0.2s ease;
+  outline: none;
+  color: var(--text-main);
+}
+
+/* ✨ 포커스 시 갈색 포인트 */
+.authInput:focus {
+  background: var(--surface-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px var(--auth-focus-ring);
+}
+
+.authInput::placeholder {
+  color: #BDBDBD; /* 기존보다 조금 더 따뜻한 회색 */
+}
+
+.authError {
+  font-size: 13px;
+  color: var(--point-color); /* 주황색 포인트 */
+  font-weight: 600;
+  margin-left: 4px;
+  min-height: 18px;
+}
+
+/* 버튼 */
+.authActions {
+  margin-top: 12px;
+}
+
+.authButton {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  border: none;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(141, 110, 99, 0.3);
+}
+
+.authButton:disabled {
+  background: #D7CCC8; /* 연한 갈색 (비활성화) */
+  color: #FFF;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.authButton:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(141, 110, 99, 0.4);
+}
+
+.authButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* 하단 링크 */
+.authLinkRow {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+.authLinkRow a {
+  color: var(--primary-color);
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 6px;
+  transition: color 0.2s;
+}
+
+.authLinkRow a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+.authBackLink {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-sub);
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color 0.2s;
+}
+.authBackLink:hover {
+  color: var(--text-main);
+}
+
+.authFooter {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 12px;
+  color: #BCAAA4; /* 아주 연한 갈색 톤의 회색 */
+}

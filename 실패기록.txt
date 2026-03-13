@@ -1,0 +1,159 @@
+1) /api/auth/login 이 500 INTERNAL_ERROR 뜨고, /api/me는 AUTH_REQUIRED
+증상
+
+로그인 요청: 500 (서버 내부 오류)
+
+/api/me, /api/bookshelf: AUTH_REQUIRED (로그인 필요)
+
+진짜 원인(핵심)
+
+AuthController가 컴파일/로직이 깨진 상태였음
+
+ApiResponse.fail(...) 같은 “없는 메서드”를 호출하고 있었고
+
+UserEntity를 new UserEntity() + setter로 만들려다가
+protected 생성자 / setter 없음 때문에 컴파일 에러가 남
+
+로그인 응답에서 toProfile(saved)처럼 없는 변수(saved) 를 반환하는 실수도 있었음(로그인 쪽은 u를 써야 함)
+
+로그인 성공해도 /api/me가 계속 AUTH_REQUIRED 뜨는 대표 원인
+
+“로그인”이 AuthenticationManager.authenticate()에서 끝나면 세션에 SecurityContext를 저장해야 다음 요청에서 인증이 유지됨
+
+너는 이 부분을 제대로 넣었고(세션 저장), 그래서 이제 구조는 맞음
+
+해결
+
+UserEntity는 public 생성자로 생성:
+new UserEntity(email, passwordHash, nickname)
+
+toProfile(UserEntity u)로 응답 객체 변환 통일
+
+로그인 응답은 반드시 toProfile(u) (saved 아님)
+
+2) “빨간 X(레코드 DTO)”가 안 없어졌던 이유
+증상
+
+LoginRequest, RegisterRequest, UserProfile 같은 record DTO에 빨간 X
+
+Java 17로 맞췄는데도 IDE에서 계속 에러처럼 보임
+
+원인
+
+실제 코드 문제가 아니라 Eclipse 쪽 컴파일러/빌드 설정 or Maven 프로젝트 갱신/Annotation 처리 상태가 꼬인 케이스였음
+
+특히 Eclipse는
+
+JDK 17 설정이 “Installed JRE / Project Compiler / Maven / Clean”까지 일관되게 안 맞으면
+
+기록(record) 문법을 계속 에러로 표시하는 경우가 흔함
+
+해결(네가 한 게 정답)
+
+Eclipse 최신(2025-09) 확인
+
+Java 17 프로젝트 컴파일 레벨 설정
+
+Maven Update Project(Alt+F5) + Clean
+
+Lombok/Annotation processing까지 켜서 안정화
+
+3) 서버가 “아예 실행이 안 됐던” 큰 원인: /api/me 매핑 충돌
+증상 (로그에 결정타)
+
+Ambiguous mapping. Cannot map 'meController' ... to {GET [/api/me]}
+
+이미 AuthController#me가 /api/me로 매핑되어 있는데
+MeController#me도 /api/me를 또 잡고 있어서 서버 부팅 자체가 실패
+
+원인
+
+같은 HTTP 메서드 + 같은 URL을 두 컨트롤러가 동시에 가지고 있음
+
+해결
+
+/api/me는 한 군데만 남겨야 함
+추천 구조:
+
+MeController만 /api/me 유지
+
+AuthController에서 @GetMapping("/me") 제거
+(혹은 AuthController의 me를 /api/auth/me로 바꿔도 됨)
+
+이거 해결되니까 서버가 정상 부팅된 거고, 네 로그가 그걸 증명함.
+
+4) Maven 명령이 이상하게 실패했던 이유 (profiles 옵션)
+증상
+
+Unknown lifecycle phase ".run.profiles=dev"
+
+원인
+
+PowerShell에서 인자 파싱이 꼬이거나, 입력이 조금이라도 깨지면 Maven이 -D...를 제대로 “시스템 프로퍼티”로 못 읽고 그 뒤 토큰을 라이프사이클 phase로 오해함
+
+확실하게 되는 실행 방법(권장)
+
+PowerShell에서는 아래 2개 중 하나로 가면 안정적이야.
+
+프로퍼티를 따옴표로 감싸기
+
+.\mvnw.cmd spring-boot:run "-Dspring-boot.run.profiles=dev"
+
+Spring 표준 옵션으로 넘기기(가장 깔끔)
+
+.\mvnw.cmd spring-boot:run "-Dspring-boot.run.arguments=--spring.profiles.active=dev"
+
+(둘 중 2번은 “스프링에게 확실히 전달”되는 방식이라 실수 확률이 더 낮아.)
+
+5) “Unable to connect to the remote server” (register 호출이 안 붙음)
+증상
+
+/api/auth/register 호출 시 연결 불가
+
+원인
+
+그 시점엔 서버가 실제로 떠 있지 않았음
+(바로 위에서 mvn run이 실패했으니 당연히 8080이 안 열림)
+
+해결
+
+/api/health 200 OK 뜨는 거 확인 후 다시 호출 → 정상
+
+6) register가 409 Conflict 뜬 이유 (이건 정상 동작)
+증상
+
+POST /api/auth/register → 409
+
+원인
+
+existsByEmail()이 true → 이미 DB에 같은 이메일이 있음
+
+즉, 회원가입 중복 방지 로직이 정상 작동한 것
+
+해결 방법
+
+다른 이메일로 가입하거나
+
+DB에서 해당 users 레코드 삭제하고 다시 시도
+
+오늘 문제 해결 “과정”을 한 줄로 요약하면
+
+서버가 뜨는지부터 확인(health 200)
+
+안 뜨면 로그에서 부팅 실패 원인 1개를 끝까지 해결(이번엔 /api/me 매핑 충돌)
+
+뜬 다음에 API 500이면 컴파일 에러/컨트롤러 로직 오류를 먼저 제거(AuthController 변수/메서드/엔티티 생성 방식)
+
+마지막으로 PowerShell/Maven 실행 옵션 같은 “환경 이슈” 정리
+
+내일 바로 이어가기용 체크리스트
+
+서버 실행: 로그에 Tomcat started on port 8080 확인
+
+GET /api/health 200 확인
+
+회원가입: 새 이메일로 200 확인
+
+로그인: 세션 유지 확인(로그인 후 -WebSession $s로 /api/me 호출)
+
+/api/bookshelf가 AUTH_REQUIRED가 아니라 정상 응답으로 바뀌는지 확인
